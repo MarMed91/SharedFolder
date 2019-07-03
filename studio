@@ -1,0 +1,151 @@
+LARAVEL CRUD: HOWTO
+
+Laravel CRUD operations:
+
+1 - generate and init new laravel project
+    composer create-project --prefer-dist laravel/laravel MyLaravelXXX
+    npm install
+    npm run watch-poll
+    (optional: active browserSync in webpack)
+2 - generate new dabatase (phpmyadmin)
+3 - set db credentials in laravel project (.env)
+4 - setup apache migration project
+    cd /etc/apache2/sites-available
+    sudo cp MyLaravel-Old.conf MyLaravelXXX.conf
+    sudo nano MyLaravelXXX
+    sudo a2dissite *
+    sudo a2ensite MyLaravelXXX
+    sudo systemctl restart apache2
+5 - generate migration file
+    php artisan make:migration CreateComputerTable
+6 - generate model file
+    php artisan make:model Computer
+5+6 - generate model and migration
+    php artisan make:model Computer -m
+7 - fill migration with following:
+
+    id - BigInteger auto-increment primary key
+    brand - VARCHAR 255
+    model - VARCHAR 255
+    ram - Integer
+    memory - Integer
+8 - fill model with same fields in fillable var
+9 - test migration execution
+    php artisan migrate:refresh
+        --> php artisan migrate:rollback ; php artisan migrate
+10 - generate table seeder
+    php artisan make:seeder ComputerTableSeeder
+11 - generate table factory
+    php artisan make:factory ComputerFactory
+12 - set ref model in $factory->define and
+     set faker values for each fields of table
+13 - set creation process in seeder file (ComputerTableSeeder)
+14 - activate seeder in DatabaseSeeder file
+15 - run migration refresh with seeder
+    php artisan migrate:refresh --seed
+----------------------------------------------------------------------------
+16 - generate blade layout and add notification parts:
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+    @endif
+    @if (session('success'))
+
+      <div class="alert alert-success">
+        <div class="container">
+          {{ session('success') }}
+        </div>
+      </div>
+
+    @endif
+
+17 - generate blade extension for computer list
+18 - generate ComputerController with resource
+     php artisan make:controller ComputerController --resource
+19 - bind resource route with controller
+20 - return show-computer view with all computer in db
+30 - generate create computer blade layout
+31 - bind create layout in create method in controller
+32 - generate request file
+      php artisan make:request ComputerRequest
+33 - set `return true` in authorize method
+34 - set rule in rules method
+35 - [optionl] add messages method
+36 - fill remaining methods
+37 - fill store method with custom request
+38 - fill edit method getting computer by id
+39 - fill update with custom request
+40 - fill destroy method
+
+
+npm install @fortawesome/fontawesome-free moment --save
+npm install --save-dev @fortawesome/fontawesome-free
+
+font awesome
+
+
+// Blade comment
+{{-- Form::text('foo') --}}
+{{--
+{{ HTML::form("foo") }};
+{{ HTML::form("bar") }};
+--}}
+
+{{-- <h1>Computers</h1> --}}
+
+
+
+VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html/BoolBnB/public
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+sudo nano /etc/apache2/apache2.conf
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
